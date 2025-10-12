@@ -1,0 +1,196 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCA Multi Form Access</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: #fff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Main cards */
+  .cards-container {
+    display: none; /* hidden by default */
+    gap: 20px;
+  }
+  .card {
+    width: 200px;
+    height: 120px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 18px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+  .card:hover { transform: scale(1.05); }
+
+  /* Forms */
+  .container {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    text-align: center;
+    width: 320px;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.5s ease;
+    display: none;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+  }
+  button {
+    background-color: #00ff88;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+  }
+  button:hover { background-color: #00cc6a; }
+
+  .highlight {
+    background-color: lightgreen;
+    color: darkblue;
+    padding: 8px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 15px;
+  }
+
+  .back-btn {
+    background-color: #ff4040;
+    color: #fff;
+  }
+  .back-btn:hover { background-color: #cc0000; }
+
+  .warning {
+    color: #ff4040;
+    font-weight: bold;
+    display: none;
+    margin-bottom: 15px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Access Code Screen -->
+<div class="container" id="codeAccess" style="display:block;">
+  <h2>Enter Access Code</h2>
+  <input type="password" id="accessCode" placeholder="Enter Code" 
+         onkeydown="if(event.key==='Enter'){checkCode()}">
+  <button onclick="checkCode()">Enter</button>
+  <p class="warning" id="warning">⚠ Wrong Code! Try again.</p>
+</div>
+
+<!-- Main Cards -->
+<div class="cards-container" id="mainCards">
+  <div class="card" onclick="showSection('loginForm')">Login Form</div>
+  <div class="card" onclick="showSection('carForm')">Car Form</div>
+  <div class="card" onclick="showSection('classExample')">Class Example</div>
+</div>
+
+<!-- Login Form -->
+<div class="container" id="loginForm">
+  <h2>Login Form</h2>
+  <input type="text" placeholder="Username" id="username">
+  <input type="password" placeholder="Password" id="password">
+  <button onclick="nextFromLogin()">Next ➡</button>
+  <button class="back-btn" onclick="backToMain()">⬅ Back</button>
+</div>
+
+<!-- Car Form -->
+<div class="container" id="carForm">
+  <h2>Select a Car</h2>
+  <select id="cars">
+    <option value="volvo">Rolls-Royce</option>
+    <option value="saab">Mercedes</option>
+    <option value="mercedes">Ferrari</option>
+    <option value="audi">Lamborghini</option>
+	<option value="volvo">Bugatti</option>
+    <option value="saab">pagani</option>
+    <option value="mercedes">Mclaren</option>
+    <option value="audi">Audi</option>
+  </select>
+  <button onclick="showSection('classExample')">Next ➡</button>
+  <button class="back-btn" onclick="showSection('loginForm')">⬅ Back</button>
+</div>
+
+<!-- Class Example -->
+<div class="container" id="classExample">
+  <h2>Class Selector Example</h2>
+  <select id="cars">
+    <option value="volvo">MCA</option>
+    <option value="saab">bsc</option>
+    <option value="mercedes">MA</option>
+    <option value="audi">MBA</option>
+  </select>
+  <div class="highlight">"Class Selector Example</div>
+  <button class="back-btn" onclick="backToMain()">🔁 Back to Main</button>
+</div>
+
+<script>
+function checkCode() {
+  const code = document.getElementById("accessCode").value.trim().toUpperCase();
+  const warning = document.getElementById("warning");
+
+  if (code === "AKS") {
+    warning.style.display = "none";
+    document.getElementById("codeAccess").style.display = "none";
+    document.getElementById("mainCards").style.display = 'flex'; // show main options
+  } else {
+    warning.style.display = "block";
+    document.getElementById("mainCards").style.display = 'none'; // hide main options
+  }
+}
+
+function showSection(id) {
+  document.getElementById('mainCards').style.display = 'none';
+  document.querySelectorAll('.container').forEach(c => {
+    if(c.id !== 'codeAccess') c.style.display = 'none';
+  });
+  document.getElementById(id).style.display = 'block';
+}
+
+function backToMain() {
+  document.querySelectorAll('.container').forEach(c => {
+    if(c.id !== 'codeAccess') c.style.display = 'none';
+  });
+  document.getElementById('mainCards').style.display = 'flex';
+}
+
+// Optional: Validate login inputs before next
+function nextFromLogin() {
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value.trim();
+  if(user === "" || pass === "") {
+    alert("Please fill both Username and Password!");
+    return;
+  }
+  showSection('carForm');
+}
+</script>
+
+</body>
+</html>
