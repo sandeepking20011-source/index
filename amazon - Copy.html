@@ -1,0 +1,220 @@
+ <!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SANDEEP KUMAR SAKET — 3D Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #0f172a;
+      --bg2: #071033;
+      --card: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.06);
+      --accent: #8b5cf6;
+      --accent-2: #06b6d4;
+      --text: #e6eef8;
+      --muted: #9fb0c9;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--text);background:radial-gradient(1200px 500px at 10% 10%, rgba(139,92,246,0.09), transparent), linear-gradient(180deg,var(--bg1), var(--bg2));}/* Page layout */
+.wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px}
+.scene{width:100%;max-width:1100px;perspective:1800px}
+
+/* 3D container */
+.card-grid{display:grid;grid-template-columns:420px 1fr;gap:28px;transform-style:preserve-3d}
+
+/* Profile card */
+.profile-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border-radius:18px;padding:22px;backdrop-filter: blur(6px);box-shadow: 0 20px 40px rgba(2,6,23,0.6);transform-origin:center;transition:transform .25s ease, box-shadow .25s ease;transform-style:preserve-3d;border:1px solid rgba(255,255,255,0.04)}
+
+/* Tilt effect */
+.profile-card.tilt{transform:rotateY(var(--rY)) rotateX(var(--rX)) translateZ(8px)}
+
+.top-row{display:flex;gap:14px;align-items:center}
+.avatar{width:110px;height:110px;border-radius:14px;overflow:hidden;flex:0 0 110px;border:2px solid rgba(255,255,255,0.06)}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.meta{flex:1}
+.name{font-size:20px;font-weight:800;letter-spacing:0.6px}
+.sub{font-size:13px;color:var(--muted);margin-top:6px}
+
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tag{padding:6px 10px;border-radius:999px;font-size:12px;background:linear-gradient(90deg, rgba(139,92,246,0.12), rgba(6,182,212,0.06));border:1px solid rgba(255,255,255,0.03)}
+
+/* Info box */
+.info{margin-top:18px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));border:1px solid rgba(255,255,255,0.02)}
+.info p{margin:6px 0;color:var(--muted)}
+
+/* Controls */
+.controls{display:flex;gap:8px;margin-top:12px}
+.btn{padding:8px 12px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:600;cursor:pointer}
+.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04)}
+
+/* Right column */
+.right{display:flex;flex-direction:column;gap:18px}
+.panel{padding:18px;border-radius:16px;background:var(--card);border:1px solid rgba(255,255,255,0.03);backdrop-filter: blur(6px)}
+
+.panel h3{margin:0 0 8px 0}
+.socials{display:flex;gap:12px;flex-wrap:wrap}
+.socials a{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));text-decoration:none;color:var(--text);border:1px solid rgba(255,255,255,0.02)}
+
+/* Music player */
+.audio-wrap{display:flex;align-items:center;gap:12px}
+audio{width:100%;outline:none}
+
+/* 3D decorative layers */
+.layer{position:absolute;left:0;right:0;height:200px;pointer-events:none}
+.layer.one{top:-60px;background:radial-gradient(600px 200px at 10% 30%, rgba(139,92,246,0.12), transparent)}
+.layer.two{bottom:-60px;background:radial-gradient(600px 200px at 90% 70%, rgba(6,182,212,0.06), transparent)}
+
+/* Footer */
+.footer{font-size:13px;color:var(--muted);text-align:center;margin-top:18px}
+
+/* Responsive */
+@media (max-width:880px){
+  .card-grid{grid-template-columns:1fr;}
+  .avatar{width:88px;height:88px}
+}
+
+/* subtle animation */
+@keyframes floaty{0%{transform:translateY(0px)}50%{transform:translateY(-6px)}100%{transform:translateY(0px)}}
+.avatar img{animation:floaty 6s ease-in-out infinite}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="scene">
+      <div class="layer one"></div>
+      <div class="card-grid" id="grid"><!-- LEFT: Profile card -->
+    <div class="profile-card" id="profileCard" tabindex="0">
+      <div class="top-row">
+        <div class="avatar">
+          <img id="avatarImg" src="https://i.ytimg.com/vi/moejkZ58gj4/oar2.jpg?sqp=-oaymwEYCJUDENAFSFqQAgHyq4qpAwcIARUAAIhC&rs=AOn4CLAhIcympnJMtrYth40PJl0CnFPS3w" alt="avatar">
+        </div>
+        <div class="meta">
+          <div class="name">SANDEEP KUMAR SAKET</div>
+          <div class="sub">Nagar Nigam Satna, Madhya Pradesh • MCA Student</div>
+          <div class="tags">
+            <span class="tag">Web</span>
+            <span class="tag">Music Lover</span>
+            <span class="tag">Student</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info">
+        <p><strong>From:</strong> NAGAR NIGAM SATNA, MADHYA PRADESH</p>
+        <p><strong>Phone:</strong> +91 99818 35815</p>
+        <p><strong>Favorite Colour:</strong> Black</p>
+      </div>
+
+      <div class="controls">
+        <label class="btn" for="photoUpload">Upload Photo</label>
+        <input id="photoUpload" type="file" accept="image/*" style="display:none">
+        <button class="btn ghost" id="downloadBtn">Save HTML</button>
+        <button class="btn ghost" id="resetBtn">Reset</button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Details, Socials & Player -->
+    <div class="right">
+      <div class="panel">
+        <h3>About</h3>
+        <p style="color:var(--muted);margin-top:6px">12th: Govt. Venket Higher Secondary School No. 2, Satna • Bachelor's: BA(CA) • Currently: MCA from AKS University</p>
+      </div>
+
+      <div class="panel">
+        <h3>Connect with me</h3>
+        <div class="socials">
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener">📸 Instagram</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a href="https://github.com/" target="_blank" rel="noopener">💻 GitHub</a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Music & Player</h3>
+        <div class="audio-wrap">
+          <!-- Use a direct audio file or an embedded player URL. If you only have streaming links (Apple Music, Spotify) they won't play cross-origin here. Use MP3/OGG file hosted publicly. -->
+          <audio id="player" controls>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <p style="color:var(--muted);margin-top:8px">Arijit Singh • Superhit collection (example). To use Apple Music/Spotify links, open them in those apps.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Quick actions</h3>
+        <p style="color:var(--muted);margin:0">Tip: Click and drag over the left card to tilt it — or move your mouse over it for a subtle 3D parallax.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="layer two"></div>
+  <div class="footer">Made with ❤ — Open this file locally as <code>index.html</code> to view. Customize the audio & images as you like.</div>
+</div>
+
+  </div>  <script>
+    // Interactive 3D tilt effect
+    const card = document.getElementById('profileCard');
+    const scene = document.getElementById('grid');
+
+    function setVars(x,y){
+      card.style.setProperty('--rX', x + 'deg');
+      card.style.setProperty('--rY', y + 'deg');
+    }
+
+    scene.addEventListener('mousemove', (e) => {
+      const rect = scene.getBoundingClientRect();
+      const cx = rect.left + rect.width/2;
+      const cy = rect.top + rect.height/2;
+      const dx = (e.clientX - cx);
+      const dy = (e.clientY - cy);
+      const rY = (dx / rect.width) * 12; // rotateY
+      const rX = -(dy / rect.height) * 8; // rotateX
+      setVars(rX.toFixed(2), rY.toFixed(2));
+      card.classList.add('tilt');
+    });
+
+    scene.addEventListener('mouseleave', ()=>{
+      setVars(0,0);
+      card.classList.remove('tilt');
+    });
+
+    // Photo upload preview
+    const photoUpload = document.getElementById('photoUpload');
+    const avatarImg = document.getElementById('avatarImg');
+    photoUpload.addEventListener('change', (ev)=>{
+      const f = ev.target.files && ev.target.files[0];
+      if(!f) return;
+      const url = URL.createObjectURL(f);
+      avatarImg.src = url;
+    });
+
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      avatarImg.src = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder';
+      document.getElementById('player').pause();
+      setVars(0,0);
+    });
+
+    // Save HTML (export current DOM to single file)
+    document.getElementById('downloadBtn').addEventListener('click', ()=>{
+      const doc = '<!doctype html>' + '\n' + document.documentElement.outerHTML;
+      const blob = new Blob([doc], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'sandeep_saket_profile.html';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Accessibility: keyboard tilt
+    card.addEventListener('focus', ()=> card.classList.add('tilt'));
+    card.addEventListener('blur', ()=> {setVars(0,0); card.classList.remove('tilt')});
+
+  </script></body>
+</html>
